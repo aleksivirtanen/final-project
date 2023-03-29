@@ -1,0 +1,42 @@
+GET http://localhost:5000/api/items
+
+###
+GET http://localhost:5000/api/items/myitems
+Authorization: BEARER {{authToken}}
+
+###
+POST http://localhost:5000/api/items
+Content-Type: application/json
+Authorization: BEARER {{authToken}}
+
+{
+  "itemName": "Test Itemyy",
+  "category": "Test Category",
+  "price": 100
+}
+
+### 
+DELETE http://localhost:5000/api/items/4
+Authorization: BEARER {{authToken}}
+
+###
+POST http://localhost:5000/api/users/signup
+Content-Type: application/json
+
+{
+  "name": "John Wayne",
+  "email": "john@wayne.com",
+  "password": "john@wayne"
+}
+###
+# @name login
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "john@wayne.com",
+  "password": "john@wayne"
+}
+
+###
+@authToken = {{login.response.body.token}}

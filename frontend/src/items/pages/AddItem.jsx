@@ -10,7 +10,8 @@ import { AuthContext } from "../../shared/context/auth-context";
 
 const AddItem = () => {
   const [category, setCategory] = useState("");
-  const itemNameRef = useRef();
+  const titleRef = useRef();
+  const descriptionRef = useRef();
   const priceRef = useRef();
   const imageRef = useRef();
 
@@ -28,7 +29,8 @@ const AddItem = () => {
   const itemSubmitHandler = (event) => {
     event.preventDefault();
     createItemMutation.mutate({
-      itemName: itemNameRef.current.value,
+      itemName: titleRef.current.value,
+      description: descriptionRef.current.value,
       category: category,
       price: priceRef.current.value,
       image: imageRef.current.value,
@@ -39,7 +41,13 @@ const AddItem = () => {
 
   return (
     <form className="item-form" onSubmit={itemSubmitHandler}>
-      <Input id="title" ref={itemNameRef} type="text" label="Title" />
+      <Input id="title" ref={titleRef} type="text" label="Title" />
+      <Input
+        id="description"
+        ref={descriptionRef}
+        type="text"
+        label="Description"
+      />
       <Input id="price" ref={priceRef} type="text" label="Price" />
       <Input id="image" ref={imageRef} type="text" label="Image Link" />
       <div className="item-form-dropdown">

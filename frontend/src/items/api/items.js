@@ -5,12 +5,13 @@ export const getItems = async () => {
 
 export const createItem = async ({
   itemName,
+  description,
   category,
   price,
   image,
   token,
 }) => {
-  console.log(itemName, category, price, image);
+  console.log(itemName, description, category, price, image);
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items`, {
     method: "POST",
     headers: {
@@ -20,6 +21,7 @@ export const createItem = async ({
     },
     body: JSON.stringify({
       itemName,
+      description,
       category,
       price,
       image,

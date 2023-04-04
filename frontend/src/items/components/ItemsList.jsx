@@ -17,6 +17,7 @@ const ItemsList = (props) => {
           key={item.id}
           id={item.id}
           itemName={item.itemName}
+          description={item.description}
           category={item.category}
           price={item.price}
           image={item.image}

@@ -60,6 +60,7 @@ const Item = (props) => {
           <div className="item__info">
             <h3>{props.itemName}</h3>
             <h2>{props.category}</h2>
+            <h2>{props.description}</h2>
             <h2>{props.price}</h2>
           </div>
           <div className="item__actions">

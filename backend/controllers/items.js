@@ -41,6 +41,7 @@ const getItemsByUserId = async (req, res) => {
 const createItem = async (req, res) => {
   const schema = Joi.object({
     itemName: Joi.string().min(3).required(),
+    description: Joi.string(),
     category: Joi.string().min(3).required(),
     price: Joi.number().precision(2).positive().required(),
     image: Joi.string(),
@@ -55,6 +56,7 @@ const createItem = async (req, res) => {
   const item = {
     userId: req.userData.userId,
     itemName: req.body.itemName,
+    description: req.body.description,
     category: req.body.category,
     price: req.body.price,
     image: req.body.image,

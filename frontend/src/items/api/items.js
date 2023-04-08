@@ -3,6 +3,16 @@ export const getItems = async () => {
   return await res.json();
 };
 
+export const getMyItems = async (token) => {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/myitems`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return await res.json();
+};
+
 export const createItem = async ({
   itemName,
   description,

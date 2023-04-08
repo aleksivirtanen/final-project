@@ -64,7 +64,7 @@ const Item = (props) => {
             <h2>{props.price}</h2>
           </div>
           <div className="item__actions">
-            {auth.isLoggedIn && (
+            {auth.userId === props.userId && (
               <Button danger onClick={showConfirmationHandler}>
                 Delete
               </Button>

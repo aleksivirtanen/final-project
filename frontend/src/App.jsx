@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Items from "./items/pages/Items";
+import MyItems from "./items/pages/MyItems";
 import Users from "./users/pages/Users";
 import AddItem from "./items/pages/AddItem";
 import Authenticate from "./users/pages/Authenticate";
@@ -76,6 +77,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <Items />
+        </Route>
+        <Route path="/myitems" exact>
+          <MyItems />
         </Route>
         <Route path="/users" exact>
           <Users />

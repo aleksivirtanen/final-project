@@ -1,4 +1,4 @@
-import { React, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import Input from "../../shared/components/input/Input";

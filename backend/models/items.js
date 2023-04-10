@@ -7,8 +7,7 @@ const items = {
         if (err) {
           return reject(err);
         }
-
-        connection.query("SELECT * FROM items", (err, result) => {
+        connection.query("SELECT items.*, users.name FROM items LEFT JOIN users ON items.userId=users.id;", (err, result) => {
           connection.release();
           if (err) {
             return reject(err);

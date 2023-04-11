@@ -2,8 +2,8 @@ import React from "react";
 import Item from "./Item";
 import "./ItemsList.css";
 
-const ItemsList = (props) => {
-  if (props.items.length === 0) {
+const ItemsList = ({ data, showUserName, refetchHandler }) => {
+  if (data.length === 0) {
     return (
       <div>
         <h2>No items found.</h2>
@@ -12,7 +12,7 @@ const ItemsList = (props) => {
   }
   return (
     <ul className="items-list">
-      {props.items.map((item) => (
+      {data.map((item) => (
         <Item
           key={item.id}
           id={item.id}
@@ -23,6 +23,8 @@ const ItemsList = (props) => {
           category={item.category}
           price={item.price}
           image={item.image}
+          showUserName={showUserName}
+          refetchHandler={refetchHandler}
         />
       ))}
     </ul>

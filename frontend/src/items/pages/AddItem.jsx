@@ -63,7 +63,7 @@ const AddItem = () => {
       image: imageRef.current.value,
       token: auth.token,
     });
-    history.push("/");
+    history.go("/");
   };
 
   return (

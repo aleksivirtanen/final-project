@@ -6,13 +6,14 @@ import LoadingSpinner from "../../shared/components/loadingspinner/LoadingSpinne
 import "../../index.css";
 
 const Items = () => {
-  const { isLoading, error, data, refetch } = useQuery("itemsData", () =>
-    getItems()
-  );
+  const { isLoading, error, data, refetch } = useQuery("itemsData", getItems);
 
-  useEffect(() => {
+  const refetchHandler = () => {
     refetch();
-  });
+  };
+
+  const showUserName = true;
+  const props = { data, showUserName, refetchHandler };
 
   if (isLoading)
     return (
@@ -23,7 +24,7 @@ const Items = () => {
 
   if (error) return "An error has occured: " + error.message;
 
-  return <ItemsList items={data} />;
+  return <ItemsList {...props} />;
 };
 
 export default Items;

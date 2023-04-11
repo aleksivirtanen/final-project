@@ -96,6 +96,26 @@ const items = {
         );
       });
     }),
+    edit: (item) =>
+    new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) {
+          return reject(err);
+        }
+        connection.query(
+          "UPDATE items SET itemName = ?, description = ?, price = ? WHERE id = ?;",
+          [item.itemName, item.description, item.price, item.id],
+          (err, result) => {
+            connection.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+      });
+    }),
   deleteById: (id) =>
     new Promise((resolve, reject) => {
       const deleteQuery = "DELETE FROM items WHERE id=?;";

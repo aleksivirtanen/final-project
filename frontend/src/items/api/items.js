@@ -40,6 +40,31 @@ export const createItem = async ({
   return await res.json();
 };
 
+export const editItem = async ({
+  id,
+  itemName,
+  description,
+  price,
+  token,
+}) => {
+  console.log(id, itemName, description, price);
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
+    method: "PUT",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({
+      id,
+      itemName,
+      description,
+      price,
+    }),
+  });
+  return await res.json();
+};
+
 export const deleteItem = async ({ id, token }) => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
     method: "DELETE",

@@ -6,6 +6,7 @@ const verifyToken = require("../middleware/verifyToken");
 const {
   getItems,
   createItem,
+  editItem,
   deleteItem,
   getItemById,
   getItemsByUserId,
@@ -17,6 +18,7 @@ router.get("/", getItems);
 router.use(verifyToken);
 
 router.get("/myitems", getItemsByUserId);
+router.put("/:id", editItem);
 router.post("/", createItem);
 router.delete("/:id", deleteItem);
 

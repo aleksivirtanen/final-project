@@ -12,9 +12,9 @@ const MyItems = () => {
     getMyItems(auth.token)
   );
 
-  useEffect(() => {
+  const refetchHandler = () => {
     refetch();
-  });
+  };
 
   if (isLoading)
     return (
@@ -26,7 +26,10 @@ const MyItems = () => {
   if (error) return "An error has occured: " + error.message;
   if (!data) return <div>You have no listings!</div>;
 
-  return <ItemsList items={data} />;
+  const showUserName = false;
+  const props = { data, showUserName, refetchHandler };
+
+  return <ItemsList {...props} />;
 };
 
 export default MyItems;

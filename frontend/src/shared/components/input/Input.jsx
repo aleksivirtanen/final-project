@@ -10,6 +10,7 @@ const Input = forwardRef((props, ref) => {
         id={props.id}
         type={props.type}
         placeholder={props.placeholder}
+        defaultValue={props.defaultValue}
       />
     </div>
   );

@@ -42,10 +42,10 @@ const createItem = async (req, res) => {
   console.log(req.body)
   const schema = Joi.object({
     itemName: Joi.string().min(3).required(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ''),
     category: Joi.string().min(3).required(),
     price: Joi.number().precision(2).positive().required(),
-    image: Joi.string(),
+    image: Joi.string().allow(null, ''),
   });
 
   const { error } = schema.validate(req.body);
@@ -85,7 +85,7 @@ const editItem = async (req, res) => {
   const schema = Joi.object({
     id: Joi.number(),
     itemName: Joi.string().min(3).required(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ''),
     price: Joi.number().precision(2).positive().required(),
   });
 

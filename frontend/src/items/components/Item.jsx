@@ -87,6 +87,13 @@ const Item = (props) => {
     setEditMode(false);
   };
 
+  const noImagePlaceholder =
+    "https://www.staticwhich.co.uk/static/images/products/no-image/no-image-available.png";
+
+  const addPlaceholder = (event) => {
+    event.target.src = noImagePlaceholder;
+  };
+
   return (
     <>
       <Modal
@@ -110,13 +117,17 @@ const Item = (props) => {
         <Card className="item__content">
           <h2>{props.category}</h2>
           <div className="item__image">
-            <img src={props.image} alt={props.itemName} />
+            <img
+              src={props.image}
+              alt={props.itemName}
+              onError={addPlaceholder}
+            />
           </div>
           <div className="item__info">
             {!editMode && (
               <>
                 <h3>{props.itemName}</h3>
-                <h2>{props.description}</h2>
+                {props.description.length > 0 && <h2>{props.description}</h2>}
                 <h2>{props.price}</h2>
               </>
             )}

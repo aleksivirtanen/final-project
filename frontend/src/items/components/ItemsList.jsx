@@ -2,8 +2,8 @@ import React from "react";
 import Item from "./Item";
 import "./ItemsList.css";
 
-const ItemsList = ({ data, showUserName, refetchHandler }) => {
-  if (data.length === 0) {
+const ItemsList = ({ items, showUserName, refetchHandler }) => {
+  if (items.length === 0) {
     return (
       <div>
         <h2>No items found.</h2>
@@ -12,7 +12,7 @@ const ItemsList = ({ data, showUserName, refetchHandler }) => {
   }
   return (
     <ul className="items-list">
-      {data.map((item) => (
+      {items.map((item) => (
         <Item
           key={item.id}
           id={item.id}

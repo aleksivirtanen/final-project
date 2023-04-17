@@ -27,7 +27,8 @@ const MyItems = () => {
   if (!data) return <div>You have no listings!</div>;
 
   const showUserName = false;
-  const props = { data, showUserName, refetchHandler };
+  const items = data;
+  const props = { items, showUserName, refetchHandler };
 
   return <ItemsList {...props} />;
 };

@@ -126,9 +126,9 @@ const Item = (props) => {
           <div className="item__info">
             {!editMode && (
               <>
-                <h3>{props.itemName}</h3>
-                {props.description.length > 0 && <h2>{props.description}</h2>}
-                <h2>{props.price}</h2>
+                <h2>{props.itemName}</h2>
+                {props.description.length > 0 && <h3>{props.description}</h3>}
+                <h3>{props.price} €</h3>
               </>
             )}
             {editMode && (
@@ -162,7 +162,7 @@ const Item = (props) => {
                 )}
               </>
             )}
-            {props.showUserName && <h2>Owner: {props.userName}</h2>}
+            {props.showUserName && <h3>Owner: {props.userName}</h3>}
           </div>
           <div className="item__actions">
             {auth.userId === props.userId && !editMode && (

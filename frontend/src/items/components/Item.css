@@ -40,6 +40,6 @@ p {
 }
 @media (min-width: 768px) {
   .item__image {
-    height: 20rem;
+    height: 22rem;
   }
 }

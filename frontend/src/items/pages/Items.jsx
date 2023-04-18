@@ -3,12 +3,17 @@ import { useQuery } from "react-query";
 import { getItems } from "../api/items";
 import ItemsList from "../components/ItemsList";
 import CategoryFilter from "../components/CategoryFilter";
+import KeywordFilter from "../components/KeywordFilter";
+import KeywordList from "../components/KeywordList";
+import Card from "../../shared/components/card/Card";
 import LoadingSpinner from "../../shared/components/loadingspinner/LoadingSpinner";
 import "../../index.css";
+import "./Items.css";
 
 const Items = () => {
   const [items, setItems] = useState([]);
   const [checkboxStatus, setCheckboxStatus] = useState([]);
+  const [keywords, setKeywords] = useState([]);
   const { isLoading, error, data, refetch } = useQuery("itemsData", getItems, {
     onSuccess: setItems,
   });
@@ -19,6 +24,19 @@ const Items = () => {
 
   const checkboxHandler = (state) => {
     setCheckboxStatus(state);
+  };
+
+  const searchHandler = (keyword) => {
+    if (keyword.length > 0) {
+      if (keywords.includes(keyword)) return;
+      setKeywords((keywords) => [...keywords, keyword]);
+    } else setKeywords([]);
+  };
+
+  const removeKeywordHandler = (keyword) => {
+    let keywordHolder = keywords;
+    keywordHolder = keywordHolder.filter((word) => word !== keyword);
+    setKeywords(keywordHolder);
   };
 
   useEffect(() => {
@@ -51,10 +69,22 @@ const Items = () => {
         (item) => item.category !== "Hygiene and Wash up"
       );
     }
-    setItems(itemHolder);
-  }, [checkboxStatus]);
 
-  console.log(items);
+    if (keywords.length > 0) {
+      itemHolder = itemHolder.filter((item) => {
+        return keywords.every((word) => {
+          return (
+            item.itemName.toUpperCase().includes(word.toUpperCase()) ||
+            item.description.toUpperCase().includes(word.toUpperCase()) ||
+            item.category.toUpperCase().includes(word.toUpperCase())
+          );
+        });
+      });
+    }
+
+    setItems(itemHolder);
+  }, [checkboxStatus, keywords]);
+
   const showUserName = true;
   const props = { items, showUserName, refetchHandler };
 
@@ -69,7 +99,16 @@ const Items = () => {
 
   return (
     <>
-      <CategoryFilter checkboxHandler={checkboxHandler} />
+      <Card className="container">
+        <div>
+          <KeywordFilter searchHandler={searchHandler} />
+          <KeywordList
+            keywords={keywords}
+            removeKeywordHandler={removeKeywordHandler}
+          />
+        </div>
+        <CategoryFilter checkboxHandler={checkboxHandler} />
+      </Card>
       <ItemsList {...props} />
     </>
   );

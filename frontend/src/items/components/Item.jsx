@@ -162,18 +162,20 @@ const Item = (props) => {
                 )}
               </>
             )}
-            {props.showUserName && <h3>Owner: {props.userName}</h3>}
+            {!props.authRequired && <h3>Owner: {props.userName}</h3>}
           </div>
           <div className="item__actions">
-            {auth.userId === props.userId && !editMode && (
-              <>
-                <Button onClick={enterEditModeHandler}>Edit</Button>
-                <Button danger onClick={showConfirmationHandler}>
-                  Delete
-                </Button>
-              </>
-            )}
-            {auth.userId === props.userId && editMode && (
+            {auth.userId === props.userId &&
+              !editMode &&
+              props.authRequired && (
+                <>
+                  <Button onClick={enterEditModeHandler}>Edit</Button>
+                  <Button danger onClick={showConfirmationHandler}>
+                    Delete
+                  </Button>
+                </>
+              )}
+            {auth.userId === props.userId && editMode && props.authRequired && (
               <>
                 <Button onClick={saveChangesHandler}>Save</Button>
                 <Button danger onClick={cancelEditModeHandler}>

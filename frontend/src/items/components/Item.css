@@ -3,6 +3,7 @@ p {
 }
 .item {
   margin: 1rem 0;
+  list-style: none;
 }
 .item__content {
   padding: 0;
@@ -10,6 +11,7 @@ p {
 .item__info {
   padding: 1rem;
   text-align: center;
+  word-wrap: break-word;
 }
 .item__image {
   width: 100%;

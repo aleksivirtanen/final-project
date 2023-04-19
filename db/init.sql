@@ -26,6 +26,13 @@ VALUES (
     'seppo@raty.com',
     '$2a$12$stzoKdDeAhklwUiwIKyK7./Ijl3L03UxMyKg.ElzCrgQCW9wkA7Wi'
   );
+INSERT INTO `users` (`id`, `name`, `email`, `password`)
+VALUES (
+    2,
+    'Matti Meikalainen',
+    'matti@meikalainen.com',
+    '$2a$12$stzoKdDeAhklwUiwIKyK7./Ijl3L03UxMyKg.ElzCrgQCW9wkA7Wi'
+  );
 INSERT INTO `items` (
     `userId`,
     `itemName`,
@@ -43,6 +50,7 @@ VALUES (
     'https://www.varusteleka.com/pictures/thumbs500a/472425ea198159a9fc.jpg'
   );
 INSERT INTO `items` (
+    `userId`,
     `itemName`,
     `description`,
     `category`,
@@ -50,6 +58,7 @@ INSERT INTO `items` (
     `image`
   )
 VALUES (
+    1,
     'Romanian Two Piece Mess Kit',
     'Description text...',
     'Camp Cooking and Field Stoves',
@@ -57,6 +66,7 @@ VALUES (
     'https://www.varusteleka.com/pictures/thumbs500a/50270609e578001911.jpg'
   );
 INSERT INTO `items` (
+    `userId`,
     `itemName`,
     `description`,
     `category`,
@@ -64,9 +74,74 @@ INSERT INTO `items` (
     `image`
   )
 VALUES (
+    2,
     'French F1/F2 2-Person Tent',
     'Description text...',
     'Shelters',
     39.99,
     'https://www.varusteleka.com/pictures/thumbs500a/214595ef099010975d.jpg'
+  );
+INSERT INTO `items` (
+    `userId`,
+    `itemName`,
+    `description`,
+    `category`,
+    `price`,
+    `image`
+  )
+VALUES (
+    2,
+    'Carinthia Compression Bag',
+    'Description text... Description text... Description text...',
+    'Sleeping Bags and Pads',
+    30.55,
+    'https://www.varusteleka.com/pictures/thumbs500a/4941961c1dec538865.jpg'
+  );
+INSERT INTO `items` (
+    `userId`,
+    `itemName`,
+    `description`,
+    `category`,
+    `price`,
+    `image`
+  )
+VALUES (
+    1,
+    'UCO Waterproof Matches',
+    'Description text...',
+    'Fire and Warmth',
+    3.99,
+    'https://www.varusteleka.com/pictures/thumbs500a/54950624ff648ecd1e.jpg'
+  );
+INSERT INTO `items` (
+    `userId`,
+    `itemName`,
+    `description`,
+    `category`,
+    `price`,
+    `image`
+  )
+VALUES (
+    1,
+    'Dutch 1Q Canteen with Pouch and Cup',
+    'Description text...',
+    'Canteens and Hydration Bladders',
+    17.99,
+    'https://www.varusteleka.com/pictures/thumbs500a/50911616963c84be2d.jpg'
+  );
+INSERT INTO `items` (
+    `userId`,
+    `itemName`,
+    `description`,
+    `category`,
+    `price`,
+    `image`
+  )
+VALUES (
+    2,
+    'Robens Fjell Trekking Towel',
+    'Description text...',
+    'Hygiene and Wash up',
+    14.99,
+    'https://www.varusteleka.com/pictures/thumbs500a/550856272883999184.jpg'
   );

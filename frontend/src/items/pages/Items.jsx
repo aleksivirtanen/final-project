@@ -85,8 +85,8 @@ const Items = () => {
     setItems(itemHolder);
   }, [checkboxStatus, keywords]);
 
-  const showUserName = true;
-  const props = { items, showUserName, refetchHandler };
+  const authRequired = false;
+  const props = { items, authRequired, refetchHandler };
 
   if (isLoading)
     return (

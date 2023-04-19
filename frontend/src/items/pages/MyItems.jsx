@@ -26,9 +26,9 @@ const MyItems = () => {
   if (error) return "An error has occured: " + error.message;
   if (!data) return <div>You have no listings!</div>;
 
-  const showUserName = false;
+  const authRequired = true;
   const items = data;
-  const props = { items, showUserName, refetchHandler };
+  const props = { items, authRequired, refetchHandler };
 
   return <ItemsList {...props} />;
 };

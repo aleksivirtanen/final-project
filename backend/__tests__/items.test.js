@@ -36,14 +36,42 @@ describe("GET items endpoint", () => {
 });
 
 describe("GET item by id endpoint", () => {
+  const loggedInUser = {
+    userId: "",
+    email: "",
+    token: "",
+  };
+  
+  beforeAll(async () => {
+    connection.query("DELETE FROM users WHERE email=?", [
+      "john.wayne@domain.com",
+    ]);
+    const data = {
+      name: "John Wayne",
+      email: "john.wayne@domain.com",
+      password: "password123",
+    };
+  
+    const response = await supertest(app)
+      .post("/api/users/signup")
+      .set("Accept", "application/json")
+      .send(data);
+    loggedInUser.userId = response.body.userId;
+    loggedInUser.email = response.body.email;
+    loggedInUser.token = response.body.token;
+  });
   test("should return 200 if item was found", (done) => {
-    supertest(app).get("/api/items/1").expect(200).end(done);
+    supertest(app).get("/api/items/1")
+    .set("Accept", "application/json")
+    .set("Authorization", "Bearer " + loggedInUser.token)
+    .expect(200).end(done);
   });
 
   test("should return 200 and json if the item was found", async () => {
     const response = await supertest(app)
       .get("/api/items/1")
-      .set("Accept", "application/json");
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
 
     expect(response.status).toEqual(200);
     expect(response.headers["content-type"]).toMatch(/json/);
@@ -54,6 +82,74 @@ describe("GET item by id endpoint", () => {
         category: "Camp Cooking and Field Stoves",
         price: 19.99,
       })
+    );
+  });
+});
+
+describe("GET myitems endpoint", () => {
+  const loggedInUser = {
+    userId: "",
+    email: "",
+    token: "",
+  };
+  
+  beforeAll(async () => {
+    connection.query("DELETE FROM users WHERE email=?", [
+      "john.wayne@domain.com",
+    ]);
+    const data = {
+      name: "John Wayne",
+      email: "john.wayne@domain.com",
+      password: "password123",
+    };
+  
+    const response = await supertest(app)
+      .post("/api/users/signup")
+      .set("Accept", "application/json")
+      .send(data);
+    loggedInUser.userId = response.body.userId;
+    loggedInUser.email = response.body.email;
+    loggedInUser.token = response.body.token;
+  });
+
+  afterAll(async () => {
+    const deleteQuery = `DELETE FROM items WHERE itemName LIKE 'Test MyItem' AND category LIKE 'Test MyCategory';`;
+    connection.query(deleteQuery, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  });
+
+  test("should return 200 and json if users listings were found", async () => {
+    const item = {
+      itemName: "Test MyItem",
+      category: "Test MyCategory",
+      description: "description...",
+      price: 10.55,
+    };
+  
+    await supertest(app)
+      .post("/api/items")
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
+      .set("Content", "application/json")
+      .send(item);
+
+    const getResponse = await supertest(app)
+      .get("/api/items/myitems")
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
+
+    expect(getResponse.status).toEqual(200);
+    expect(getResponse.headers["content-type"]).toMatch(/json/);
+    expect(getResponse.body).toEqual(
+      expect.arrayContaining([
+      expect.objectContaining({
+        itemName: "Test MyItem",
+        category: "Test MyCategory",
+        price: 10.55,
+      })])
     );
   });
 });
@@ -97,7 +193,7 @@ describe("POST item endpoint", () => {
     const item = {
       itemName: "Test Item",
       category: "Test Category",
-      price: 10,
+      price: 10.55,
     };
 
     const response = await supertest(app)
@@ -112,7 +208,7 @@ describe("POST item endpoint", () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.itemName).toEqual("Test Item");
     expect(response.body.category).toEqual("Test Category");
-    expect(response.body.price).toEqual(10);
+    expect(response.body.price).toEqual(10.55);
   });
 
   test("should not create an item without an itemName property", async () => {
@@ -246,7 +342,7 @@ describe("POST item endpoint", () => {
     const item = {
       itemName: "Test Item",
       category: "Test Category",
-      price: -10.1
+      price: -10.11
     };
 
     const response = await supertest(app)
@@ -258,6 +354,24 @@ describe("POST item endpoint", () => {
 
     expect(response.status).toEqual(400);
     expect(response.text).toContain('"price" must be a positive number');
+  });
+
+  test("should not create an item with price having more than 2 decimals", async () => {
+    const item = {
+      itemName: "Test Item",
+      category: "Test Category",
+      price: 10.111
+    };
+
+    const response = await supertest(app)
+      .post("/api/items")
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
+      .set("Content", "application/json")
+      .send(item);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"price" must have no more than 2 decimal places');
   });
 
   test("should not create a duplicate item", async () => {
@@ -309,7 +423,7 @@ describe("DELETE items endpoint", () => {
     const item = {
       itemName: "Test Item Delete",
       category: "Test Category Delete",
-      price: 10,
+      price: 10.55,
     };
 
     const postResponse = await supertest(app)
@@ -327,5 +441,78 @@ describe("DELETE items endpoint", () => {
 
     expect(deleteResponse.status).toEqual(200);
     expect(deleteResponse.text).toContain("Item deleted");
+  });
+});
+
+describe("PUT item endpoint", () => {
+  const loggedInUser = {
+    userId: "",
+    email: "",
+    token: "",
+  };
+
+  beforeAll(async () => {
+    connection.query("DELETE FROM users WHERE email=?", [
+      "john.wayne@domain.com",
+    ]);
+    const data = {
+      name: "John Wayne",
+      email: "john.wayne@domain.com",
+      password: "password123",
+    };
+
+    const response = await supertest(app)
+      .post("/api/users/signup")
+      .set("Accept", "application/json")
+      .send(data);
+    loggedInUser.userId = response.body.userId;
+    loggedInUser.email = response.body.email;
+    loggedInUser.token = response.body.token;
+  });
+
+  afterAll(async () => {
+    const deleteQuery = `DELETE FROM items WHERE itemName LIKE 'Test Item Put Updated' AND category LIKE 'Test Category Put';`;
+    connection.query(deleteQuery, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  });
+
+  test("should update item by id", async () => {
+    const item = {
+      itemName: "Test Item Put",
+      category: "Test Category Put",
+      description: "description...",
+      price: 10.55,
+    };
+
+    const postResponse = await supertest(app)
+      .post("/api/items")
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
+      .send(item);
+
+    const postId = postResponse.body.id;
+
+    const updatedItem = {
+      id: postId,
+      itemName: "Test Item Put Updated",
+      price: 11.11,
+    }
+
+    const putResponse = await supertest(app)
+      .put(`/api/items/${postId}`)
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + loggedInUser.token)
+      .set("Content", "application/json")
+      .send(updatedItem);
+
+    expect(putResponse.status).toEqual(200);
+    expect(putResponse.body).toEqual(expect.objectContaining({
+      id: postId,
+      itemName: "Test Item Put Updated",
+      price: 11.11,
+    }));
   });
 });

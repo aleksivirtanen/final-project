@@ -18,7 +18,7 @@ const getItemById = async (req, res) => {
     const id = parseInt(req.params.id);
     const response = await items.findItemById(id);
     if (response.length === 1) {
-      res.send(response[0]);
+      res.status(200).send(response[0]);
     }
   } catch (err) {
     res.status(500).send({ message: "Something went wrong" });
@@ -39,7 +39,6 @@ const getItemsByUserId = async (req, res) => {
 };
 
 const createItem = async (req, res) => {
-  console.log(req.body)
   const schema = Joi.object({
     itemName: Joi.string().min(3).required(),
     description: Joi.string().allow(null, ''),
@@ -48,7 +47,7 @@ const createItem = async (req, res) => {
     image: Joi.string().allow(null, ''),
   });
 
-  const { error } = schema.validate(req.body);
+  const { error } = schema.validate(req.body, {convert:false});
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
@@ -81,7 +80,6 @@ const createItem = async (req, res) => {
 };
 
 const editItem = async (req, res) => {
-  console.log(req.body)
   const schema = Joi.object({
     id: Joi.number(),
     itemName: Joi.string().min(3).required(),
@@ -101,7 +99,6 @@ const editItem = async (req, res) => {
     description: req.body.description,
     price: req.body.price,
   };
-  console.log(item)
 
   try {
     const response = await items.edit(item);

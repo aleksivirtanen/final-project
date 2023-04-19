@@ -13,11 +13,11 @@ const {
 } = require("../controllers/items");
 
 router.get("/", getItems);
-//router.get("/:id", getItemById);
 
 router.use(verifyToken);
 
 router.get("/myitems", getItemsByUserId);
+router.get("/:id", getItemById);
 router.put("/:id", editItem);
 router.post("/", createItem);
 router.delete("/:id", deleteItem);

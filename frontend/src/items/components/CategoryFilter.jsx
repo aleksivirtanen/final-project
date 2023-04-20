@@ -35,6 +35,7 @@ const CategoryFilter = (props) => {
               checked={shelters}
               onChange={handleChange}
               name="shelters"
+              data-testid="shelters"
             />
           }
           label="Shelters"
@@ -45,6 +46,7 @@ const CategoryFilter = (props) => {
               checked={sleepingbags}
               onChange={handleChange}
               name="sleepingbags"
+              data-testid="sleeping"
             />
           }
           label="Sleeping Bags and Pads"

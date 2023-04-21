@@ -58,7 +58,7 @@ const createItem = async (req, res) => {
     itemName: req.body.itemName,
     description: req.body.description,
     category: req.body.category,
-    price: +req.body.price,
+    price: req.body.price,
     image: req.body.image,
   };
 

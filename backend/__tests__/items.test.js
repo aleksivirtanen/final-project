@@ -356,24 +356,6 @@ describe("POST item endpoint", () => {
     expect(response.text).toContain('"price" must be a positive number');
   });
 
-  test("should not create an item with price having more than 2 decimals", async () => {
-    const item = {
-      itemName: "Test Item",
-      category: "Test Category",
-      price: 10.111
-    };
-
-    const response = await supertest(app)
-      .post("/api/items")
-      .set("Accept", "application/json")
-      .set("Authorization", "Bearer " + loggedInUser.token)
-      .set("Content", "application/json")
-      .send(item);
-
-    expect(response.status).toEqual(400);
-    expect(response.text).toContain('"price" must have no more than 2 decimal places');
-  });
-
   test("should not create a duplicate item", async () => {
     const item = {
       itemName: "Swiss Three Piece Mess Kit",

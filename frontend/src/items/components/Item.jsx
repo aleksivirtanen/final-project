@@ -115,7 +115,7 @@ const Item = (props) => {
       </Modal>
       <li className="item">
         <Card className="item__content">
-          <h2>{props.category}</h2>
+          <h2 data-testid="category">{props.category}</h2>
           <div className="item__image">
             <img
               src={props.image}
@@ -126,9 +126,11 @@ const Item = (props) => {
           <div className="item__info">
             {!editMode && (
               <>
-                <h2>{props.itemName}</h2>
-                {props.description.length > 0 && <h3>{props.description}</h3>}
-                <h3>{props.price} €</h3>
+                <h2 data-testid="title">{props.itemName}</h2>
+                {props.description.length > 0 && (
+                  <h3 data-testid="description">{props.description}</h3>
+                )}
+                <h3 data-testid="price">{props.price} €</h3>
               </>
             )}
             {editMode && (
@@ -141,24 +143,28 @@ const Item = (props) => {
                   defaultValue={props.itemName}
                 />
                 {!validTitle && (
-                  <p>Invalid input. Title must contain 3 to 60 characters</p>
+                  <p data-testid="invalidTitle">
+                    Invalid input. Title must contain 3 to 60 characters
+                  </p>
                 )}
                 <Input
-                  id="edit-title"
+                  id="edit-description"
                   ref={descriptionRef}
                   type="text"
                   label="Description"
                   defaultValue={props.description}
                 />
                 <Input
-                  id="edit-title"
+                  id="edit-price"
                   ref={priceRef}
                   type="text"
                   label="Price"
                   defaultValue={props.price}
                 />
                 {!validPrice && (
-                  <p>Invalid input. Please enter the price in the form xx.xx</p>
+                  <p data-testid="invalidPrice">
+                    Invalid input. Please enter the price in the form xx.xx
+                  </p>
                 )}
               </>
             )}
@@ -169,16 +175,28 @@ const Item = (props) => {
               !editMode &&
               props.authRequired && (
                 <>
-                  <Button onClick={enterEditModeHandler}>Edit</Button>
-                  <Button danger onClick={showConfirmationHandler}>
+                  <Button data-testid="edit" onClick={enterEditModeHandler}>
+                    Edit
+                  </Button>
+                  <Button
+                    data-testid="delete"
+                    danger
+                    onClick={showConfirmationHandler}
+                  >
                     Delete
                   </Button>
                 </>
               )}
             {auth.userId === props.userId && editMode && props.authRequired && (
               <>
-                <Button onClick={saveChangesHandler}>Save</Button>
-                <Button danger onClick={cancelEditModeHandler}>
+                <Button data-testid="save" onClick={saveChangesHandler}>
+                  Save
+                </Button>
+                <Button
+                  data-testid="cancel"
+                  danger
+                  onClick={cancelEditModeHandler}
+                >
                   Cancel
                 </Button>
               </>

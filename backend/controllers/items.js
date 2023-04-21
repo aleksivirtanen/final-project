@@ -47,7 +47,7 @@ const createItem = async (req, res) => {
     image: Joi.string().allow(null, ''),
   });
 
-  const { error } = schema.validate(req.body, {convert:false});
+  const { error } = schema.validate(req.body);
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
@@ -58,7 +58,7 @@ const createItem = async (req, res) => {
     itemName: req.body.itemName,
     description: req.body.description,
     category: req.body.category,
-    price: req.body.price,
+    price: +req.body.price,
     image: req.body.image,
   };
 

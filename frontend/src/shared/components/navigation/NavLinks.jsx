@@ -14,7 +14,7 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       {auth.isLoggedIn && (
-        <li>
+        <li data-testid="myitems">
           <NavLink to="/myitems" exact>
             MY LISTINGS
           </NavLink>
@@ -28,7 +28,7 @@ const NavLinks = (props) => {
         </li>
       )}
       {auth.isLoggedIn && (
-        <li>
+        <li data-testid="add">
           <NavLink to="/items/new" exact>
             ADD ITEM
           </NavLink>

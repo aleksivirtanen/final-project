@@ -70,7 +70,9 @@ const AddItem = () => {
     <form className="item-form" onSubmit={itemSubmitHandler}>
       <Input id="title" ref={titleRef} type="text" label="Title" />
       {!validTitle && (
-        <p>Invalid input. Title must contain 3 to 60 characters</p>
+        <p data-testid="invalidTitle">
+          Invalid input. Title must contain 3 to 60 characters
+        </p>
       )}
       <Input
         id="description"
@@ -80,13 +82,17 @@ const AddItem = () => {
       />
       <Input id="price" ref={priceRef} type="text" label="Price" />
       {!validPrice && (
-        <p>Invalid input. Please enter the price in the form xx.xx</p>
+        <p data-testid="invalidPrice">
+          Invalid input. Please enter the price in the form xx.xx
+        </p>
       )}
       <Input id="image" ref={imageRef} type="text" label="Image Link" />
       <div className="item-form-dropdown">
         <Dropdown id="category" handleCategoryChange={handleCategoryChange} />
       </div>
-      {!validCategory && <p>Please select a category.</p>}
+      {!validCategory && (
+        <p data-testid="invalidCategory">Please select a category.</p>
+      )}
       <Button id="add-item" type="submit">
         Add Item
       </Button>

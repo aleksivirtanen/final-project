@@ -57,6 +57,7 @@ const CategoryFilter = (props) => {
               checked={firewarmth}
               onChange={handleChange}
               name="firewarmth"
+              data-testid="warmth"
             />
           }
           label="Fire and Warmth"
@@ -67,6 +68,7 @@ const CategoryFilter = (props) => {
               checked={campcooking}
               onChange={handleChange}
               name="campcooking"
+              data-testid="campcooking"
             />
           }
           label="Camp Cooking and Field Stoves"
@@ -77,6 +79,7 @@ const CategoryFilter = (props) => {
               checked={canteens}
               onChange={handleChange}
               name="canteens"
+              data-testid="canteens"
             />
           }
           label="Canteens and Hydration Bladders"
@@ -87,6 +90,7 @@ const CategoryFilter = (props) => {
               checked={hygiene}
               onChange={handleChange}
               name="hygiene"
+              data-testid="hygiene"
             />
           }
           label="Hygiene and Wash up"

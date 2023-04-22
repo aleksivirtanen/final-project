@@ -19,6 +19,7 @@ const ResetPassword = (props) => {
   const passwordVerifyRef = useRef();
   const history = useHistory();
   const [passwordValid, setPasswordValid] = useState(undefined);
+  const [passwordSame, setPasswordSame] = useState(undefined);
   const [verified, setVerified] = useState(undefined);
 
   console.log(data);
@@ -33,6 +34,7 @@ const ResetPassword = (props) => {
     onSuccess: (data) => {
       console.log(data);
       if (data.message === "Password updated") {
+        setPasswordSame(true);
         setPasswordValid(true);
       }
     },
@@ -44,6 +46,11 @@ const ResetPassword = (props) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (passwordRef.current.value !== passwordVerifyRef.current.value) {
+      setPasswordSame(false);
+      return;
+    }
+    if (passwordRef.current.value.length < 5) {
+      setPasswordSame(true);
       setPasswordValid(false);
       return;
     }
@@ -96,12 +103,16 @@ const ResetPassword = (props) => {
           type="password"
           label="Verify New Password"
         />
-        {passwordValid !== undefined && !passwordValid && (
+        {passwordSame !== undefined && !passwordSame && (
           <p>Passwords do not match!</p>
         )}
-        {passwordValid !== undefined && passwordValid && (
-          <p style={{ color: "green" }}>New password set!</p>
+        {passwordValid !== undefined && !passwordValid && (
+          <p>Password too short, minimum 5 characters</p>
         )}
+        {passwordSame !== undefined &&
+          passwordValid !== undefined &&
+          passwordSame &&
+          passwordValid && <p style={{ color: "green" }}>New password set!</p>}
         <Button type="submit" disable={newPasswordMutation.isLoading}>
           Set New Password
         </Button>

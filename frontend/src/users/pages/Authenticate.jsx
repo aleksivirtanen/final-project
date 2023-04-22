@@ -13,11 +13,17 @@ const Authenticate = (props) => {
   const passwordRef = useRef();
 
   const [isLoginMode, setLoginMode] = useState(true);
+  const [validLogin, setValidLogin] = useState(undefined);
+  const [passwordValid, setPasswordValid] = useState(undefined);
 
   const auth = useContext(AuthContext);
 
   const switchModeHanlder = () => {
     setLoginMode((prevMode) => !prevMode);
+    setValidLogin(undefined);
+    setPasswordValid(undefined);
+    emailRef.current.value = "";
+    passwordRef.current.value = "";
   };
 
   const signUpUserMutation = useMutation({
@@ -35,6 +41,9 @@ const Authenticate = (props) => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log(data);
+      if (data.message === "No user found - Check your credentials") {
+        setValidLogin(false);
+      }
       auth.login(data.id, data.token);
     },
     onError: (error) => {
@@ -49,12 +58,14 @@ const Authenticate = (props) => {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
-    } else {
+    } else if (passwordRef.current.value.length > 4) {
       signUpUserMutation.mutate({
         name: nameRef.current.value,
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
+    } else {
+      setPasswordValid(false);
     }
   };
 
@@ -72,6 +83,12 @@ const Authenticate = (props) => {
           type="password"
           label="Password"
         />
+        {validLogin !== undefined && !validLogin && (
+          <p>Invalid email or password!</p>
+        )}
+        {passwordValid !== undefined && !passwordValid && (
+          <p>Password too short, minimum 5 characters</p>
+        )}
         <div className="resetPassword">
           <a href="http://localhost:5173/forgotpassword">Forgot password?</a>
         </div>

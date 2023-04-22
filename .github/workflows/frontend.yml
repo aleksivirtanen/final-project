@@ -1,0 +1,41 @@
+name: Frontend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/**
+jobs:
+  test:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install the Node modules
+        working-directory: ./frontend
+        run: npm install
+      - name: testing-library tests
+        working-directory: ./frontend
+        run: npm run test:ci
+  build:
+    needs: test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install the Node modules
+        working-directory: ./frontend
+        run: npm install
+      - name: Build production frontend
+        working-directory: ./frontend
+        run: npm run build

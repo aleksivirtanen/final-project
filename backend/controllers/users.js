@@ -119,8 +119,85 @@ const loginUser = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  let identifiedUser;
+  try {
+    const result = await users.findByEmail(email);
+    if (!result[0]) {
+      return res
+        .status(401)
+        .send({ message: "No user found - Check your credentials" });
+    }
+    identifiedUser = result[0];
+    const secret = process.env.JWT_KEY + identifiedUser.password;
+    const token = jwt.sign(
+      {
+        email: identifiedUser.email,
+        id: identifiedUser.id,
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+    const link = `http://localhost:5173/resetpassword/${identifiedUser.id}/${token}`;
+    console.log(link);
+    res.status(200).send({ message: "Link sent to Email" });
+  } catch (err) {
+    return res.status(500).send({ message: "Something went wrong" });
+  }
+};
+
+const verifyLink = async (req, res) => {
+  const { id, token } = req.params;
+  console.log(req.params);
+  const result = await users.findById(id);
+  if (!result[0]) {
+    return res.status(401).send({ message: "No user found" });
+  }
+  let identifiedUser = result[0];
+  const secret = process.env.JWT_KEY + identifiedUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    res.status(200).send({ message: "Verified" });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Something went wrong, link may have expired!" });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+  const result = await users.findById(id);
+  if (!result[0]) {
+    return res.status(401).send({ message: "No user found" });
+  }
+  let identifiedUser = result[0];
+  const secret = process.env.JWT_KEY + identifiedUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = {
+      id: id,
+      password: hashedPassword,
+    };
+    const response = await users.editPassword(user);
+    if (response) {
+      res.status(200).send({ message: "Password updated" });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Something went wrong, link may have expired!" });
+  }
+};
+
 module.exports = {
   getUsers,
   loginUser,
   signUpUser,
+  forgotPassword,
+  verifyLink,
+  updatePassword,
 };

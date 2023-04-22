@@ -7,13 +7,16 @@ const items = {
         if (err) {
           return reject(err);
         }
-        connection.query("SELECT items.*, users.name FROM items LEFT JOIN users ON items.userId=users.id;", (err, result) => {
-          connection.release();
-          if (err) {
-            return reject(err);
+        connection.query(
+          "SELECT items.*, users.name FROM items LEFT JOIN users ON items.userId=users.id;",
+          (err, result) => {
+            connection.release();
+            if (err) {
+              return reject(err);
+            }
+            resolve(result);
           }
-          resolve(result);
-        });
+        );
       });
     }),
   findItemById: (id) =>
@@ -96,7 +99,7 @@ const items = {
         );
       });
     }),
-    edit: (item) =>
+  edit: (item) =>
     new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) {

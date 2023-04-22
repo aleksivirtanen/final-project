@@ -10,6 +10,8 @@ import MyItems from "./items/pages/MyItems";
 import Users from "./users/pages/Users";
 import AddItem from "./items/pages/AddItem";
 import Authenticate from "./users/pages/Authenticate";
+import ForgotPassword from "./users/pages/ForgotPassword";
+import ResetPassword from "./users/pages/ResetPassword";
 import MainNavigation from "./shared/components/navigation/MainNavigation";
 import { AuthContext } from "./shared/context/auth-context";
 import "./App.css";
@@ -96,8 +98,14 @@ function App() {
         <Route path="/" exact>
           <Items />
         </Route>
-        <Route path="/auth">
+        <Route path="/auth" exact>
           <Authenticate />
+        </Route>
+        <Route path="/forgotpassword" exact>
+          <ForgotPassword />
+        </Route>
+        <Route path="/resetpassword/:id/:token">
+          <ResetPassword />
         </Route>
         <Redirect to="/" />
       </Switch>

@@ -139,7 +139,7 @@ const forgotPassword = async (req, res) => {
       secret,
       { expiresIn: "5m" }
     );
-    const link = `http://localhost:5173/resetpassword/${identifiedUser.id}/${token}`;
+    const link = `${process.env.FRONTEND_URL}/resetpassword/${identifiedUser.id}/${token}`;
     console.log(link);
     res.status(200).send({ message: "Link sent to Email" });
   } catch (err) {

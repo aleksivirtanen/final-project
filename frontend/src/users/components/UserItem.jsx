@@ -23,9 +23,6 @@ const UserItem = (props) => {
           <h2>{props.name}</h2>
           <h3>{props.email}</h3>
         </div>
-        <div className="user-item_actions">
-          <button>Delete</button>
-        </div>
       </Card>
     </li>
   );

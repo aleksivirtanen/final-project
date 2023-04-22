@@ -15,6 +15,7 @@ const Authenticate = (props) => {
   const [isLoginMode, setLoginMode] = useState(true);
   const [validLogin, setValidLogin] = useState(undefined);
   const [passwordValid, setPasswordValid] = useState(undefined);
+  const [emailValid, setEmailValid] = useState(undefined);
 
   const auth = useContext(AuthContext);
 
@@ -22,6 +23,7 @@ const Authenticate = (props) => {
     setLoginMode((prevMode) => !prevMode);
     setValidLogin(undefined);
     setPasswordValid(undefined);
+    setEmailValid(undefined);
     emailRef.current.value = "";
     passwordRef.current.value = "";
   };
@@ -30,6 +32,10 @@ const Authenticate = (props) => {
     mutationFn: signUpUser,
     onSuccess: (data) => {
       console.log(data);
+      if (data.message === "Could not create user, user exists") {
+        setEmailValid(false);
+        setPasswordValid(true);
+      }
       auth.login(data.id, data.token);
     },
     onError: (error) => {
@@ -77,6 +83,9 @@ const Authenticate = (props) => {
           <Input id="name" ref={nameRef} type="text" label="Name" />
         )}
         <Input id="email" ref={emailRef} type="text" label="Email" />
+        {emailValid !== undefined && !emailValid && (
+          <p>Email already in use!</p>
+        )}
         <Input
           id="password"
           ref={passwordRef}

@@ -141,7 +141,7 @@ const forgotPassword = async (req, res) => {
     );
     const link = `${process.env.FRONTEND_URL}/resetpassword/${identifiedUser.id}/${token}`;
     console.log(link);
-    res.status(200).send({ message: "Link sent to Email" });
+    res.status(200).send({ message: "Link sent to Email", link });
   } catch (err) {
     return res.status(500).send({ message: "Something went wrong" });
   }

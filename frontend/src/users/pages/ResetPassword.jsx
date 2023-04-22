@@ -107,7 +107,7 @@ const ResetPassword = (props) => {
           <p>Passwords do not match!</p>
         )}
         {passwordValid !== undefined && !passwordValid && (
-          <p>Password too short, minimum 5 characters</p>
+          <p>Password too short, minimum 5 characters!</p>
         )}
         {passwordSame !== undefined &&
           passwordValid !== undefined &&

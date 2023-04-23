@@ -24,6 +24,13 @@ const AddItem = () => {
 
   const createItemMutation = useMutation({
     mutationFn: createItem,
+    onSuccess: (data) => {
+      console.log(data);
+      history.go("/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const handleCategoryChange = (selected) => {
@@ -64,7 +71,6 @@ const AddItem = () => {
       image: imageRef.current.value,
       token: auth.token,
     });
-    history.go("/");
   };
 
   return (

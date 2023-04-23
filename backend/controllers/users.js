@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const users = require("../models/users");
+const Joi = require("joi");
 require("dotenv").config();
 
 const getUsers = async (req, res) => {
@@ -17,6 +18,18 @@ const getUsers = async (req, res) => {
 };
 
 const signUpUser = async (req, res) => {
+  const schema = Joi.object({
+    name: Joi.string().allow(null, ""),
+    email: Joi.string().required(),
+    password: Joi.string().min(5).required(),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+
   const { name, email, password } = req.body;
 
   let hashedPassword;
@@ -167,6 +180,14 @@ const verifyLink = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
+  const schema = Joi.object({
+    password: Joi.string().min(5).required(),
+  });
+  const { error } = schema.validate(req.body);
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
   const { id, token } = req.params;
   const { password } = req.body;
   const result = await users.findById(id);
@@ -201,5 +222,3 @@ module.exports = {
   verifyLink,
   updatePassword,
 };
-
-//

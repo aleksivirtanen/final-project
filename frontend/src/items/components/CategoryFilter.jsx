@@ -36,6 +36,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="shelters"
               data-testid="shelters"
+              style={{ color: "green" }}
             />
           }
           label="Shelters"
@@ -47,6 +48,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="sleepingbags"
               data-testid="sleeping"
+              style={{ color: "green" }}
             />
           }
           label="Sleeping Bags and Pads"
@@ -58,6 +60,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="firewarmth"
               data-testid="warmth"
+              style={{ color: "green" }}
             />
           }
           label="Fire and Warmth"
@@ -69,6 +72,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="campcooking"
               data-testid="campcooking"
+              style={{ color: "green" }}
             />
           }
           label="Camp Cooking and Field Stoves"
@@ -80,6 +84,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="canteens"
               data-testid="canteens"
+              style={{ color: "green" }}
             />
           }
           label="Canteens and Hydration Bladders"
@@ -91,6 +96,7 @@ const CategoryFilter = (props) => {
               onChange={handleChange}
               name="hygiene"
               data-testid="hygiene"
+              style={{ color: "green" }}
             />
           }
           label="Hygiene and Wash up"

@@ -122,8 +122,8 @@ describe("RESETPASSWORD endpoint", () => {
     const { message, link } = responseForgot.body;
 
     const fields = link.split("/");
-    const id = fields[4];
-    const token = fields[5];
+    const id = fields[fields.length - 2];
+    const token = fields[fields.length - 1];
 
     const password = {
       password: "testi",

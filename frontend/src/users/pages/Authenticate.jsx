@@ -5,6 +5,7 @@ import Input from "../../shared/components/input/Input";
 import Button from "../../shared/components/button/Button";
 import { signUpUser, loginUser } from "../api/users";
 import { AuthContext } from "../../shared/context/auth-context";
+import LoadingSpinner from "../../shared/components/loadingspinner/LoadingSpinner";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
@@ -101,6 +102,11 @@ const Authenticate = (props) => {
         <div className="resetPassword">
           <a href="/forgotpassword">Forgot password?</a>
         </div>
+        {(loginUserMutation.isLoading || signUpUserMutation.isLoading) && (
+          <div>
+            <LoadingSpinner />
+          </div>
+        )}
         <Button type="submit" disable={signUpUserMutation.isLoading}>
           {isLoginMode ? "LOGIN" : "SIGNUP"}
         </Button>

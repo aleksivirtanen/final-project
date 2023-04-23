@@ -113,6 +113,11 @@ const ResetPassword = (props) => {
           passwordValid !== undefined &&
           passwordSame &&
           passwordValid && <p style={{ color: "green" }}>New password set!</p>}
+        {newPasswordMutation.isLoading && (
+          <div>
+            <LoadingSpinner />
+          </div>
+        )}
         <Button type="submit" disable={newPasswordMutation.isLoading}>
           Set New Password
         </Button>

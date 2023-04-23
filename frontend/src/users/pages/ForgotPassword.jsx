@@ -6,6 +6,7 @@ import Button from "../../shared/components/button/Button";
 import { forgotPassword } from "../api/users";
 import { useHistory } from "react-router-dom";
 import "./Authenticate.css";
+import LoadingSpinner from "../../shared/components/loadingspinner/LoadingSpinner";
 
 const ForgotPassword = (props) => {
   const emailRef = useRef();
@@ -49,6 +50,11 @@ const ForgotPassword = (props) => {
               Password reset link sent to given Email.
             </p>
             <p style={{ color: "green" }}>It expires in 5 minutes.</p>
+          </div>
+        )}
+        {resetPasswordMutation.isLoading && (
+          <div>
+            <LoadingSpinner />
           </div>
         )}
         <Button type="submit" disable={resetPasswordMutation.isLoading}>

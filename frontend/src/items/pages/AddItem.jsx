@@ -7,6 +7,7 @@ import Dropdown from "../../shared/components/dropdown/Dropdown";
 import "./AddItem.css";
 import { createItem } from "../api/items";
 import { AuthContext } from "../../shared/context/auth-context";
+import LoadingSpinner from "../../shared/components/loadingspinner/LoadingSpinner";
 
 const AddItem = () => {
   const [validTitle, setValidTitle] = useState(true);
@@ -92,6 +93,11 @@ const AddItem = () => {
       </div>
       {!validCategory && (
         <p data-testid="invalidCategory">Please select a category.</p>
+      )}
+      {createItemMutation.isLoading && (
+        <div>
+          <LoadingSpinner />
+        </div>
       )}
       <Button id="add-item" type="submit">
         Add Item

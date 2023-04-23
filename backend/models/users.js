@@ -8,7 +8,7 @@ const users = {
           return reject(err);
         }
 
-        connection.query("SELECT * FROM users", (err, result) => {
+        connection.query("SELECT name, email FROM users", (err, result) => {
           connection.release();
           if (err) {
             return reject(err);

@@ -7,9 +7,9 @@ import "./UsersList.css";
 const UsersList = (props) => {
   return (
     <ul className="users-list">
-      {props.items.map((user) => (
+      {props.items.map((user, i) => (
         <UserItem
-          key={user.id}
+          key={i}
           id={user.id}
           name={user.name}
           email={user.email}

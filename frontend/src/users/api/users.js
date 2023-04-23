@@ -1,5 +1,10 @@
-export const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users`);
+export const getUsers = async (token) => {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
   return await res.json();
 };
 

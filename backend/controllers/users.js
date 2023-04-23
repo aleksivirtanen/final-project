@@ -1,8 +1,8 @@
 const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-
 const users = require("../models/users");
+require("dotenv").config();
 
 const getUsers = async (req, res) => {
   try {

@@ -99,7 +99,7 @@ const Authenticate = (props) => {
           <p>Password too short, minimum 5 characters</p>
         )}
         <div className="resetPassword">
-          <a href="http://localhost:5173/forgotpassword">Forgot password?</a>
+          <a href="/forgotpassword">Forgot password?</a>
         </div>
         <Button type="submit" disable={signUpUserMutation.isLoading}>
           {isLoginMode ? "LOGIN" : "SIGNUP"}

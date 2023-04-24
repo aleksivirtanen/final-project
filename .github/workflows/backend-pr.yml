@@ -1,0 +1,46 @@
+name: Backend PR
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - backend/**
+jobs:
+  test:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v3
+      - name: Start MYSQL server
+        uses: shogo82148/actions-setup-mysql@v1
+        with:
+          mysql-version: 8.0
+          auto-start: true
+      - name: Setup MySQL Server
+        run: |
+          mysql -uroot -h127.0.0.1 -e 'SELECT version();'
+          mysql -h127.0.0.1 -P3306 -uroot -e 'CREATE DATABASE test_db;'
+          mysql -h127.0.0.1 -P3306 -uroot -e 'SHOW DATABASES;'
+          mysql -h127.0.0.1 -P3306 -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+          mysql -h127.0.0.1 -P3306 -uroot -e 'FLUSH PRIVILEGES' -ppassword
+      - name: Seed Database
+        working-directory: ./db
+        run: mysql -h127.0.0.1 -P3306 -uroot -ppassword test_db < init.sql
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install the Node modules
+        working-directory: ./backend
+        run: npm install
+      - name: Integration tests
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USERNAME: root
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: test_db
+          MYSQL_PORT: 3306
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+        working-directory: ./backend
+        run: npm run test
